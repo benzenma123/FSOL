@@ -1,0 +1,57 @@
+import VGA, Panic, UI, main, OS, i915, tty, export, list, commandfunction, disk, checkcurdir, changedir, keyboard, WM
+int main() { # start of main
+    call i915() { 
+        func: imp UI -> OS
+        func: imp Panic -> OS
+        func: imp VGA -> OS
+    }
+    int OS() { # start of OS
+        rei main func() { 
+            call insp-load check() { 
+                if:
+                    all func: load = false 
+                try:
+                    call Panic() { 
+                        dis VGA 0x7 
+                            0x7 rei, dis 
+                else if:
+                        all func: load = true
+                        broadcast os1 -> tty
+                        broadcast os2 -> WM
+                    }
+                    int TTY() {
+                        rei os1 from OS() {
+                            dis VGA 0x100 # 0x100 is where the screen goes
+                                0x100 rei, dis:
+                                func(print{"User >"})
+                                export commandlist -> list
+
+                                int keyboard() {
+                                    rei input from keyboard() {
+                                        take input -> commandfunction
+                                    }
+                                }
+                        }
+                        int list() {
+                            command{
+                            ls - list file
+                            lsblk - disk
+                            pwd - check current dir
+                            cd - change dir
+                            }
+                            take command -> commandfunction
+                        }
+                        int commandfunction() {
+                            func: ls = list("$pwd")
+                            func: lsblk = list("disk")
+                            func: pwd = list("checkcurdir")
+                            func: cd = run("changedir")
+                        }
+                    }
+                    int WM() {
+                        wait ps2 for {instruction}
+                    }
+            }
+        }
+    }
+}
