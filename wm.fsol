@@ -1,0 +1,37 @@
+int WM() {
+    func: Windows -> $mainMod
+    func: define workspace as $CURRENTWORKSPACE
+    func: define windows as $CURRENTWINDOWS
+    int Keybinds() {
+        func: $mainMod, RETURN, exec, terminalx64
+        func: $mainMod, Q, exec, kill $CURRENTWINDOWS
+        func: $mainMod, E, exec, filexplorerx64
+        func: $mainMod, 2, Shift, switch, $CURRENTWORKSPACE -> workspace2
+        func: $mainMod, 3, Shift, switch, $CURRENTWORKSPACE -> workspace3
+    }
+    int windows() {
+        if:
+            windows1 stack -> windows2
+            func: resize 80wide, 25tall -> 40wide, 12.5tall
+        else if:
+            windows1 and windows2 stack -> windows 3
+            func: allign windows1 -> top left
+            func: resize 80wide, 25tall -> 26wide, 8tall
+            func: stack windows1 on top -> windows2
+            func: allign windows2 -> bottom left 
+            func: resize 80wide, 25tall -> 26wide, 8tall
+            func: allign windows3 -> right
+            func: resize 80wide, 25tall -> 40wide, 12.5tall
+    }
+    int cursor() {
+        if:
+            cursor hover -> windows{number}
+            focus windows{number}
+        dis cursor -> 0x7
+            cursor() {
+                draw cursor as .
+                dis VGA 0x7
+                    0x7 rei, dis
+            }
+    }
+}
