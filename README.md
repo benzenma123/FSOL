@@ -7,6 +7,7 @@ A real bootable x86-64 operating system written in **FSOL** (Felix OS Language) 
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Language](https://img.shields.io/badge/language-FSOL-green)
 ![Platform](https://img.shields.io/badge/platform-x86--64-orange)
+<img width="1920" height="1080" alt="20260509_17h46m49s_grim" src="https://github.com/user-attachments/assets/921ea2a5-6cf1-424f-b4fb-1a5ed114fb5d" />
 
 ---
 
